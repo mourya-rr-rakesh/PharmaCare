@@ -1,0 +1,338 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Register — PharmaCare</title>
+  <script>
+    // Set the dark mode strategy to 'class'
+    tailwind.config = {
+      darkMode: 'class',
+    }
+  </script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* --- Light Mode Brand Colors (Default) --- */
+    .brand-color {
+      color: #10b981;
+      /* Tailwind emerald-500 */
+    }
+
+    .bg-brand-color {
+      background-color: #10b981;
+    }
+
+    /* --- Dark Mode Brand Colors (Applied when <body> has class="dark") --- */
+    /* Change brand color text to a brighter shade for contrast in dark mode */
+    .dark .brand-color {
+      color: #34d399;
+      /* Tailwind emerald-400 (brighter for dark mode) */
+    }
+
+    /* Change brand color background to a slightly darker shade in dark mode */
+    .dark .bg-brand-color {
+      background-color: #059669;
+      /* Tailwind emerald-600 */
+    }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body class="font-[Inter] text-gray-800 bg-white dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
+  <header
+    class="shadow-sm border-b border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4">
+      <!-- LOGO + BRAND -->
+      <a href="/" class="flex items-center space-x-4 group">
+        <!-- LOGO WRAPPER -->
+        <div
+          class="bg-green-100 rounded-full p-1.5 flex items-center justify-center shadow-md group-hover:scale-105 transition-transform duration-300 border-2 border-green-400">
+          <img src="{% static 'logo.png' %}" alt="PharmaCare Logo" class="w-20 h-20 object-contain rounded-full" />
+        </div>
+        <!-- BRAND NAME -->
+        <div class="flex flex-col leading-snug">
+          <h1
+            class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-green-600 transition duration-200">
+            PharmaCare
+          </h1>
+          <p class="text-sm text-gray-600 dark:text-gray-400 italic">
+            Smart Medicine Expiry Alerts
+          </p>
+        </div>
+      </a>
+
+      <div class="flex items-center space-x-6">
+        <nav class="hidden md:flex space-x-6 text-sm font-medium">
+          <a href="/"
+            class="text-gray-600 dark:text-gray-300 hover:text-green-500 hover:border-b-2 transition duration-150">Home</a>
+          <a href="/registration.html"
+            class="brand-color font-semibold border-b-2 border-brand-color pb-1">Registration</a>
+          <a href="/login.html"
+            class="text-gray-600 dark:text-gray-300 hover:text-green-500 hover:border-b-2 transition duration-150">Login</a>
+          <a href="/profile.html"
+            class="text-gray-600 dark:text-gray-300 hover:text-green-500 hover:border-b-2 transition duration-150">Profile</a>
+        </nav>
+
+        <button id="nav-toggle"
+          class="md:hidden p-2 text-gray-600 dark:text-gray-300 hover:text-brand-color rounded-md transition duration-150"
+          aria-label="Toggle navigation" aria-expanded="false">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <nav id="mobile-nav" class="hidden md:hidden border-t border-gray-100 dark:border-gray-800 py-2">
+      <ul class="flex flex-col px-4 text-sm font-medium">
+        <li><a href="/" class="block py-2 brand-color font-semibold">Home</a></li>
+        <li><a href="/registration.html"
+            class="block py-2 text-gray-600 dark:text-gray-300 hover:text-brand-color">Registration</a></li>
+        <li><a href="/login.html" class="block py-2 text-gray-600 dark:text-gray-300 hover:text-brand-color">Login</a>
+        </li>
+        <li><a href="/profile.html"
+            class="block py-2 text-gray-600 dark:text-gray-300 hover:text-brand-color">Profile</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section
+      class="min-h-[70vh] flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-500">
+      <div
+        class="max-w-4xl mx-auto flex flex-wrap gap-6 bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg shadow-2xl rounded-2xl p-8 transition duration-500">
+
+        <!-- Left Side - Form -->
+        <div class="flex-1 min-w-[280px]">
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2 tracking-tight">
+            Create your account
+          </h2>
+          <p class="text-gray-600 dark:text-gray-300 mb-5 text-sm">
+            Sign up to start managing your <span class="text-blue-600 font-medium">medicine inventory</span> and get
+            timely expiry alerts.
+          </p>
+
+          <form id="regForm" onsubmit="return handleRegister(event)" class="space-y-5">
+            {% csrf_token %}
+            <div
+              class="grid sm:grid-cols-2 gap-5 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 p-5 rounded-2xl shadow-lg transition duration-500">
+
+              <!-- Full name -->
+              <div class="group relative">
+                <label
+                  class="absolute -top-3 left-3 bg-white dark:bg-gray-900 px-1 text-xs font-medium text-gray-700 dark:text-gray-300 transition-all group-focus-within:text-blue-500">
+                  Full Name
+                </label>
+                <input id="name" type="text" placeholder="Your full name" required pattern="[a-z\sA-Z]+" title="valid name "
+                  class="w-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none shadow-sm hover:shadow-md transition-all duration-300" />
+              </div>
+
+              <!-- Organization -->
+              <div class="group relative">
+                <label
+                  class="absolute -top-3 left-3 bg-white dark:bg-gray-900 px-1 text-xs font-medium text-gray-700 dark:text-gray-300 transition-all group-focus-within:text-blue-500">
+                  Pharmacy / Organization
+                </label>
+                <input id="org" type="text" placeholder="Pharmacy name"
+                  class="w-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none shadow-sm hover:shadow-md transition-all duration-300" />
+              </div>
+
+              <!-- Email -->
+              <div class="group relative">
+                <label
+                  class="absolute -top-3 left-3 bg-white dark:bg-gray-900 px-1 text-xs font-medium text-gray-700 dark:text-gray-300 transition-all group-focus-within:text-blue-500">
+                  Email
+                </label>
+                <input id="email" type="email" placeholder="you@example.com" required
+                  class="w-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none shadow-sm hover:shadow-md transition-all duration-300" />
+              </div>
+
+              <!-- Phone -->
+              <div class="group relative">
+                <label
+                  class="absolute -top-3 left-3 bg-white dark:bg-gray-900 px-1 text-xs font-medium text-gray-700 dark:text-gray-300 transition-all group-focus-within:text-blue-500">
+                  Phone (optional)
+                </label>
+                <input id="phone" type="tel" placeholder="+91 98765 43210"
+                  class="w-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none shadow-sm hover:shadow-md transition-all duration-300" />
+              </div>
+
+              <!-- Password -->
+              <div class="group relative">
+                <label
+                  class="absolute -top-3 left-3 bg-white dark:bg-gray-900 px-1 text-xs font-medium text-gray-700 dark:text-gray-300 transition-all group-focus-within:text-blue-500">
+                  Password
+                </label>
+                <input id="password" type="password" minlength="6" placeholder="Create a password" required
+                  class="w-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none shadow-sm hover:shadow-md transition-all duration-300" />
+              </div>
+
+              <!-- Confirm Password -->
+              <div class="group relative">
+                <label
+                  class="absolute -top-3 left-3 bg-white dark:bg-gray-900 px-1 text-xs font-medium text-gray-700 dark:text-gray-300 transition-all group-focus-within:text-blue-500">
+                  Confirm Password
+                </label>
+                <input id="confirm" type="password" minlength="6" placeholder="Repeat password" required
+                  class="w-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none shadow-sm hover:shadow-md transition-all duration-300" />
+              </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="flex flex-wrap items-center gap-3 pt-4">
+              <button type="submit"
+                class="bg-green-700 hover:bg-green-500 text-white px-5 py-2 rounded-lg font-medium shadow-md transition-transform transform hover:-translate-y-0.5">
+                Create account
+              </button>
+              <a href="/login.html" class="text-blue-600 dark:text-blue-400 hover:underline font-medium text-sm">
+                Already have an account?
+              </a>
+            </div>
+
+            <div id="regMessage" class="text-sm text-gray-500 dark:text-gray-400 mt-1"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+
+
+    <footer
+      class="bg-gray-100 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 mt-12 transition-colors duration-300">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid grid-cols-1 md:grid-cols-4 gap-8 text-sm">
+
+        <!-- Logo and About -->
+        <div>
+          <div class="flex items-center space-x-2 mb-3">
+            <div
+              class="w-9 h-9 bg-brand-color text-white font-bold rounded-md flex items-center justify-center shadow-md">
+              PC
+            </div>
+            <h2 class="text-gray-800 dark:text-gray-200 font-semibold text-lg">PharmaCare</h2>
+          </div>
+          <p class="text-gray-600 dark:text-gray-400">
+            PharmaCare is a complete medical representative management system designed to simplify medicine tracking,
+            sales monitoring, and stock management efficiently.
+          </p>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h3 class="text-gray-800 dark:text-gray-200 font-semibold mb-3">Quick Links</h3>
+          <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+            <li><a href="/" class="hover:text-brand-color transition duration-150">Home</a></li>
+            <li><a href="/dashboard.html" class="hover:text-brand-color transition duration-150">Dashboard</a></li>
+            <li><a href="/registration.html" class="hover:text-brand-color transition duration-150">Registration</a></li>
+            <li><a href="/login.html" class="hover:text-brand-color transition duration-150">Login</a></li>
+            <li><a href="/profile.html" class="hover:text-brand-color transition duration-150">Profile</a></li>
+          </ul>
+        </div>
+
+        <!-- Support -->
+        <div>
+          <h3 class="text-gray-800 dark:text-gray-200 font-semibold mb-3">Support</h3>
+          <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+            <li><a href="#" class="hover:text-brand-color transition duration-150">Help Center</a></li>
+            <li><a href="#" class="hover:text-brand-color transition duration-150">FAQs</a></li>
+            <li><a href="#" class="hover:text-brand-color transition duration-150">Privacy Policy</a></li>
+            <li><a href="#" class="hover:text-brand-color transition duration-150">Terms of Use</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact Info -->
+        <div>
+          <h3 class="text-gray-800 dark:text-gray-200 font-semibold mb-3">Contact Us</h3>
+          <ul class="text-gray-600 dark:text-gray-400 space-y-2">
+            <li><i class="fas fa-envelope mr-2"></i> support@pharmacare.com</li>
+            <li><i class="fas fa-phone mr-2"></i> +91 98765 43210</li>
+            <li><i class="fas fa-map-marker-alt mr-2"></i> Mumbai, India</li>
+          </ul>
+        </div>
+
+      </div>
+      <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+      </script>
+    </footer>
+
+    <script>
+      async function handleRegister(e) {
+        e.preventDefault();
+        const pw = document.getElementById('password').value;
+        const conf = document.getElementById('confirm').value;
+        const msg = document.getElementById('regMessage');
+        if (pw !== conf) {
+          msg.textContent = 'Passwords do not match.';
+          msg.style.color = '#b91c1c';
+          return false;
+        }
+        const user = {
+          name: document.getElementById('name').value,
+          email: document.getElementById('email').value,
+          password: pw,
+          org: document.getElementById('org').value,
+          phone: document.getElementById('phone').value
+        };
+
+        // Validate phone number if provided
+        if (user.phone && user.phone.replace(/\D/g, '').length !== 10) {
+          msg.textContent = 'Phone number must be exactly 10 digits.';
+          msg.style.color = '#b91c1c';
+          return false;
+        }
+        try {
+          const response = await fetch('/register', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify(user)
+          });
+          const data = await response.json();
+          if (response.ok) {
+            msg.textContent = 'Account created successfully. You can now log in.';
+            msg.style.color = '#047857';
+            setTimeout(() => { window.location.href = '/login.html'; }, 1400);
+          } else {
+            msg.textContent = data.error || 'Registration failed.';
+            msg.style.color = '#b91c1c';
+          }
+        } catch (err) {
+          msg.textContent = 'An error occurred. Please try again.';
+          msg.style.color = '#b91c1c';
+        }
+        return false;
+      }
+
+      function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+
+      // set year in footer
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+    <script src="{% static 'js/medicine-name.js' %}"></script>
+
+    <script src="{% static 'js/medicine-composition-name.js' %}"></script>
+
+</body>
+
+</html>

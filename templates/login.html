@@ -1,0 +1,400 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login — PharmaCare</title>
+  <script>
+    // Set the dark mode strategy to 'class'
+    tailwind.config = {
+      darkMode: 'class',
+    }
+
+
+    // js for custom tailwind colors for brand logo consistency
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              light: '#BBF7D0', // light green
+              DEFAULT: '#10B981', // main medical green
+              dark: '#047857', // dark green
+            },
+          },
+        },
+      },
+    };
+  </script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* --- Light Mode Brand Colors (Default) --- */
+    .brand-color {
+      color: #10b981;
+      /* Tailwind emerald-500 */
+    }
+
+    .bg-brand-color {
+      background-color: #10b981;
+    }
+
+    /* --- Dark Mode Brand Colors (Applied when <body> has class="dark") --- */
+    /* Change brand color text to a brighter shade for contrast in dark mode */
+    .dark .brand-color {
+      color: #34d399;
+      /* Tailwind emerald-400 (brighter for dark mode) */
+    }
+
+    /* Change brand color background to a slightly darker shade in dark mode */
+    .dark .bg-brand-color {
+      background-color: #059669;
+      /* Tailwind emerald-600 */
+    }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+  <header
+    class="shadow-md border-b border-green-100 dark:border-gray-800 bg-gradient-to-r from-green-50 to-white dark:from-gray-800 dark:to-gray-900 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-3">
+
+      <!-- LOGO + BRAND -->
+      <a href="/" class="flex items-center space-x-4 group">
+        <!-- LOGO WRAPPER -->
+        <div
+          class="bg-green-100 rounded-full p-1.5 flex items-center justify-center shadow-md group-hover:scale-105 transition-transform duration-300 border-2 border-green-400">
+          <img src="{% static 'logo.png' %}"alt="PharmaCare Logo"
+            class="w-20 h-20 object-contain rounded-full" />
+        </div>
+        <!-- BRAND NAME -->
+        <div class="flex flex-col leading-snug">
+          <h1
+            class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-green-600 transition duration-200">
+            PharmaCare
+          </h1>
+          <p class="text-sm text-gray-600 dark:text-gray-400 italic">
+            Smart Medicine Expiry Alerts
+          </p>
+        </div>
+      </a>
+
+      <!-- NAVIGATION -->
+      <div class="flex items-center space-x-6">
+        <nav class="hidden md:flex space-x-6 text-base font-medium">
+          <a href="/"
+            class="text-gray-700 dark:text-gray-300 hover:text-green-600 hover:border-b-2 hover:border-green-500 pb-1 transition duration-150">Home</a>
+          <a href="/registration.html"
+            class="text-gray-700 dark:text-gray-300 hover:text-green-600 hover:border-b-2 hover:border-green-500 pb-1 transition duration-150">Registration</a>
+          <a href="/login.html"
+            class="text-green-700 dark:text-green-400 font-semibold border-b-2 border-green-500 pb-1 transition duration-150">Login</a>
+         
+        </nav>
+
+        <!-- DARK MODE TOGGLE -->
+        <button id="theme-toggle"
+          class="p-2 text-gray-700 dark:text-gray-300 hover:text-green-600 rounded-md transition duration-150"
+          aria-label="Toggle theme">
+          <!-- LIGHT ICON -->
+          <svg id="theme-icon-light" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+            </path>
+          </svg>
+          <!-- DARK ICON -->
+          <svg id="theme-icon-dark" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+            </path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+
+  <body
+    class="min-h-screen flex items-center justify-start bg-gradient-to-br from-blue-50 via-white to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-500">
+
+    <main
+      class="flex items-center justify-center min-h-[80vh] bg-gradient-to-br from-blue-50 via-white to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-all duration-500">
+
+      <div
+        class="w-full max-w-md mx-6 sm:mx-16 md:mx-24 lg:mx-32 p-8 bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl shadow-2xl rounded-3xl">
+
+        <div class="text-center mb-8">
+          <!-- Medical Icon -->
+          <div class="flex justify-center mb-3">
+            <div class="w-12 h-12 flex items-center justify-center bg-blue-100 dark:bg-blue-900 rounded-full">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                stroke="currentColor" class="w-7 h-7 text-blue-600 dark:text-blue-400">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+              </svg>
+            </div>
+          </div>
+
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Sign in to your account</h2>
+          <p class="text-gray-600 dark:text-gray-300 mt-2">
+            Use your registered email and password to continue.
+          </p>
+        </div>
+
+        <form id="loginForm" onsubmit="return handleLogin(event)" class="space-y-5">
+          {% csrf_token %}
+          <!-- Email -->
+          <div>
+            <label for="loginEmail"
+              class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+            <input id="loginEmail" type="email" placeholder="you@example.com" required
+              class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all" />
+          </div>
+
+          <!-- Password -->
+          <div>
+            <label for="loginPassword"
+              class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Password</label>
+            <input id="loginPassword" type="password" placeholder="Your password" required
+              class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all" />
+          </div>
+
+          <!-- Sign In Button -->
+          <div class="mt-6">
+            <button type="submit"
+              class="w-full bg-green-700 hover:bg-green-500 text-white font-medium py-3 rounded-xl shadow-md transform hover:-translate-y-0.5 transition-all duration-300">
+              Sign In
+            </button>
+          </div>
+
+          <!-- Create account link -->
+          <div class="text-center mt-5">
+            <a href="/registration.html" class="text-blue-600 dark:text-blue-400 hover:underline text-sm font-medium">
+              Don’t have an account? Create one
+            </a>
+          </div>
+
+          <!-- Message -->
+          <div id="loginMessage" class="text-sm text-gray-500 dark:text-gray-400 text-center mt-3"></div>
+        </form>
+
+        <!-- Profile Section (hidden initially) -->
+        <div id="profileSection" class="hidden space-y-4">
+          <div class="text-center mb-4">
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Your Profile</h3>
+            <p class="text-gray-600 dark:text-gray-300">Welcome back!</p>
+          </div>
+          <div class="space-y-3">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
+              <p id="profileName" class="p-2 bg-gray-100 dark:bg-gray-700 rounded-lg text-gray-900 dark:text-gray-100">
+              </p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+              <p id="profileEmail" class="p-2 bg-gray-100 dark:bg-gray-700 rounded-lg text-gray-900 dark:text-gray-100">
+              </p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Organization</label>
+              <p id="profileOrg" class="p-2 bg-gray-100 dark:bg-gray-700 rounded-lg text-gray-900 dark:text-gray-100">
+              </p>
+            </div>
+          </div>
+          <div class="flex space-x-4 mt-4">
+            <button id="goToFullProfile"
+              class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-xl shadow-md transform hover:-translate-y-0.5 transition-all duration-300">
+              Full Profile
+            </button>
+            <button id="goToDashboard"
+              class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-xl shadow-md transform hover:-translate-y-0.5 transition-all duration-300">
+              Dashboard
+            </button>
+          </div>
+          <div class="mt-4">
+            <button onclick="logout()"
+              class="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-3 rounded-xl shadow-md transform hover:-translate-y-0.5 transition-all duration-300">
+              Logout
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+
+    <footer
+      class="bg-gray-100 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 mt-12 transition-colors duration-300">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid grid-cols-1 md:grid-cols-4 gap-8 text-sm">
+
+        <!-- Logo and About -->
+        <div>
+          <div class="flex items-center space-x-2 mb-3">
+            <div
+              class="w-9 h-9 bg-brand-color text-white font-bold rounded-md flex items-center justify-center shadow-md">
+              PC
+            </div>
+            <h2 class="text-gray-800 dark:text-gray-200 font-semibold text-lg">PharmaCare</h2>
+          </div>
+          <p class="text-gray-600 dark:text-gray-400">
+            PharmaCare is a complete medical representative management system designed to simplify medicine
+            tracking, sales monitoring, and stock management efficiently.
+          </p>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h3 class="text-gray-800 dark:text-gray-200 font-semibold mb-3">Quick Links</h3>
+          <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+            <li><a href="/" class="hover:text-brand-color transition duration-150">Home</a></li>
+            <li><a href="/dashboard.html" class="hover:text-brand-color transition duration-150">Dashboard</a>
+            </li>
+            <li><a href="/registration.html" class="hover:text-brand-color transition duration-150">Registration</a></li>
+            <li><a href="/login.html" class="hover:text-brand-color transition duration-150">Login</a></li>
+            <li><a href="/profile.html" class="hover:text-brand-color transition duration-150">Profile</a></li>
+          </ul>
+        </div>
+
+        <!-- Support -->
+        <div>
+          <h3 class="text-gray-800 dark:text-gray-200 font-semibold mb-3">Support</h3>
+          <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+            <li><a href="#" class="hover:text-brand-color transition duration-150">Help Center</a></li>
+            <li><a href="#" class="hover:text-brand-color transition duration-150">FAQs</a></li>
+            <li><a href="#" class="hover:text-brand-color transition duration-150">Privacy Policy</a></li>
+            <li><a href="#" class="hover:text-brand-color transition duration-150">Terms of Use</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact Info -->
+        <div>
+          <h3 class="text-gray-800 dark:text-gray-200 font-semibold mb-3">Contact Us</h3>
+          <ul class="text-gray-600 dark:text-gray-400 space-y-2">
+            <li><i class="fas fa-envelope mr-2"></i> support@pharmacare.com</li>
+            <li><i class="fas fa-phone mr-2"></i> +91 98765 43210</li>
+            <li><i class="fas fa-map-marker-alt mr-2"></i> Mumbai, India</li>
+          </ul>
+        </div>
+
+      </div>
+
+
+    </footer>
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+
+      async function handleLogin(e) {
+        e.preventDefault();
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value;
+        const msg = document.getElementById('loginMessage');
+        try {
+          const response = await fetch('/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({ email, password })
+          });
+          const data = await response.json();
+          if (response.ok) {
+            // Store user info in localStorage for profile access
+            localStorage.setItem('meditrack_logged_in', JSON.stringify(data.user));
+            msg.textContent = 'Login successful!';
+            msg.style.color = '#047857';
+            // Prefer server-sent redirect (admins/super-admins), otherwise go to dashboard
+            const redirectTo = data.redirect || (data.user && (data.user.role === 'admin') ? '/admin.html' : '/dashboard.html');
+            setTimeout(() => {
+              window.location.href = redirectTo;
+            }, 300);
+          } else {
+            msg.textContent = data.error || 'Login failed.';
+            msg.style.color = '#b91c1c';
+          }
+        } catch (err) {
+          msg.textContent = 'An error occurred. Please try again.';
+          msg.style.color = '#b91c1c';
+        }
+        return false;
+      }
+
+      async function fetchProfile() {
+        try {
+          const response = await fetch('http://localhost:3000/profile', {
+            credentials: 'include'
+          });
+          if (response.ok) {
+            const data = await response.json();
+            const user = data.user;
+            document.getElementById('profileName').textContent = user.name || 'N/A';
+            document.getElementById('profileEmail').textContent = user.email || 'N/A';
+            document.getElementById('profileOrg').textContent = user.org || 'N/A';
+          } else {
+            console.error('Failed to fetch profile');
+          }
+        } catch (error) {
+          console.error('Error fetching profile:', error);
+        }
+      }
+
+      document.getElementById('goToFullProfile').addEventListener('click', () => {
+        window.location.href = 'profile.html';
+      });
+
+      document.getElementById('goToDashboard').addEventListener('click', () => {
+        window.location.href = '/dashboard';
+      });
+
+      function logout() {
+        fetch('/logout', {
+          method: 'POST',
+          credentials: 'include'
+        })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Logout successful:', data);
+            localStorage.removeItem('meditrack_logged_in');
+            window.location.href = 'login.html';
+          })
+          .catch(error => {
+            console.error('Logout error:', error);
+            localStorage.removeItem('meditrack_logged_in');
+            window.location.href = 'login.html';
+          });
+      }
+      function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+
+      // Dark mode toggle for header section
+      const themeToggle = document.getElementById("theme-toggle");
+      const html = document.documentElement;
+      const lightIcon = document.getElementById("theme-icon-light");
+      const darkIcon = document.getElementById("theme-icon-dark");
+
+      themeToggle.addEventListener("click", () => {
+        html.classList.toggle("dark");
+        lightIcon.classList.toggle("hidden");
+        darkIcon.classList.toggle("hidden");
+      });
+    </script>
+  </body>
+
+</html>

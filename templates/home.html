@@ -1,0 +1,334 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PharmaCare — Home</title>
+
+    <script>
+        // Set the dark mode strategy to 'class'
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+
+      html{
+        scroll-behavior: smooth;
+      }
+        /* --- Light Mode Brand Colors (Default) --- */
+        .brand-color {
+            color: #10b981;
+            /* Tailwind emerald-500 */
+        }
+
+        .bg-brand-color {
+            background-color: #10b981;
+        }
+
+        /* --- Dark Mode Brand Colors (Applied when <body> has class="dark") --- */
+        /* Change brand color text to a brighter shade for contrast in dark mode */
+        .dark .brand-color {
+            color: #34d399;
+            /* Tailwind emerald-400 (brighter for dark mode) */
+        }
+
+        /* Change brand color background to a slightly darker shade in dark mode */
+        .dark .bg-brand-color {
+            background-color: #059669;
+            /* Tailwind emerald-600 */
+        }
+    </style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body class="font-[Inter] text-gray-800 bg-white dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
+
+    <header
+    class="shadow-sm border-b border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4">
+        <!-- Logo Section -->
+        <a href="/" class="flex items-center space-x-4 group">
+        <!-- LOGO WRAPPER -->
+        <div
+          class="bg-green-100 rounded-full p-1.5 flex items-center justify-center shadow-md group-hover:scale-105 transition-transform duration-300 border-2 border-green-400">
+          <img src="{% static 'logo.png' %}"alt="PharmaCare Logo"
+            class="w-20 h-20 object-contain rounded-full" />
+        </div>
+        <!-- BRAND NAME -->
+          <div class="flex flex-col leading-snug">
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-green-600 transition duration-200">
+            PharmaCare
+          </h1>
+          <p class="text-sm text-gray-600 dark:text-gray-400 italic">
+            Smart Medicine Expiry Alerts
+          </p>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="flex items-center space-x-6">
+            <nav class="hidden md:flex space-x-6 text-sm font-medium">
+                <a href="/" class="brand-color font-semibold border-b-2 border-brand-color pb-1">Home</a>
+                <a href="/registration.html" class="text-gray-700 dark:text-gray-300 hover:text-green-500 hover:border-b-2 transition duration-150">Registration</a>
+                <a href="/login.html" class="text-gray-700 dark:text-gray-300 hover:text-green-500 hover:border-b-2 transition duration-150">Login</a>
+                <a href="/profile.html" class="text-gray-700 dark:text-gray-300 hover:text-green-500 hover:border-b-2 transition duration-150">Profile</a>
+            </nav>
+            <!-- Mobile Menu Toggle -->
+            <button id="nav-toggle"
+                class="md:hidden p-2 text-gray-600 dark:text-gray-300 hover:text-brand-color rounded-md transition duration-150"
+                aria-label="Toggle navigation" aria-expanded="false">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+</header>
+
+
+    <main>
+       <section
+  class="relative py-28 bg-gradient-to-br from-cyan-100 via-blue-100 to-violet-200 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700 text-center overflow-hidden">
+
+  <!-- Animated gradient background blobs -->
+  <div class="absolute top-10 left-20 w-80 h-80 bg-cyan-400/30 rounded-full blur-3xl animate-pulse"></div>
+  <div class="absolute bottom-10 right-16 w-96 h-96 bg-violet-400/20 rounded-full blur-2xl animate-ping"></div>
+
+  <!-- Main content -->
+  <div class="relative z-10 max-w-5xl mx-auto px-6">
+    <h1
+      class="text-5xl md:text-7xl font-extrabold tracking-tight leading-tight mb-6 bg-gradient-to-r from-cyan-500 via-blue-600 to-violet-600 bg-clip-text text-transparent animate-gradient">
+      Efficient. Reliable. Safe <span class="text-white drop-shadow-lg">Medicine Management</span>
+    </h1>
+
+    <p class="text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto mb-10">
+      Manage medicines effortlessly — track expiry, inventory, and ensure safety with smart automation.
+    </p>
+
+    <!-- CTA Buttons -->
+    <div class="flex justify-center gap-4">
+      <a href="#get-started"
+        class="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-blue-600 hover:to-violet-600 text-white font-semibold rounded-full shadow-xl transition-transform transform hover:scale-105">
+        Get Started
+      </a>
+      <a href="#features"
+        class="px-6 py-3 border-2 border-blue-500 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-800 font-semibold rounded-full transition-transform transform hover:scale-105">
+        Learn More
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Custom animation for gradient text -->
+<style>
+  @keyframes gradientMove {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradientMove 5s ease infinite;
+  }
+</style>
+
+        <section id="features" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Smart Reminders for a Healthier Tomorrow</h2>
+                <p class="text-lg text-gray-500 dark:text-gray-400 mt-2">Small, useful tools designed for busy
+                    pharmacists and households.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+  <!-- Expiry Alerts -->
+  <article
+    class="p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.1)] hover:shadow-[0_10px_30px_rgba(0,0,0,0.15)] dark:shadow-[0_4px_15px_rgba(255,255,255,0.05)] transition-all duration-300 transform hover:-translate-y-2 hover:scale-[1.02]">
+    <div
+      class="feature-icon w-14 h-14 mb-4 text-2xl flex items-center justify-center rounded-full bg-gradient-to-tr from-brand-color/20 to-brand-color/40 text-brand-color">
+      🔔
+    </div>
+    <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Expiry Alerts</h3>
+    <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+      Automatically highlights medicines that are expired or about to expire — so you never miss a critical date.
+    </p>
+  </article>
+
+  <!-- Inventory Snapshot -->
+  <article
+    class="p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.1)] hover:shadow-[0_10px_30px_rgba(0,0,0,0.15)] dark:shadow-[0_4px_15px_rgba(255,255,255,0.05)] transition-all duration-300 transform hover:-translate-y-2 hover:scale-[1.02]">
+    <div
+      class="feature-icon w-14 h-14 mb-4 text-2xl flex items-center justify-center rounded-full bg-gradient-to-tr from-brand-color/20 to-brand-color/40 text-brand-color">
+      📦
+    </div>
+    <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Inventory Snapshot</h3>
+    <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+      Instantly view stock levels, purchase/sell prices, and profits — all summarized in one clear dashboard view.
+    </p>
+  </article>
+
+  <!-- Export & Backup -->
+  <article
+    class="p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.1)] hover:shadow-[0_10px_30px_rgba(0,0,0,0.15)] dark:shadow-[0_4px_15px_rgba(255,255,255,0.05)] transition-all duration-300 transform hover:-translate-y-2 hover:scale-[1.02]">
+    <div
+      class="feature-icon w-14 h-14 mb-4 text-2xl flex items-center justify-center rounded-full bg-gradient-to-tr from-brand-color/20 to-brand-color/40 text-brand-color">
+      📤
+    </div>
+    <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Export & Backup</h3>
+    <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+      Easily export your data as CSV or Excel files, ensuring secure backups and smooth sharing with your team.
+    </p>
+  </article>
+
+</div>
+
+        </section>
+
+
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div
+                class="p-10 md:p-14 bg-brand-color rounded-2xl shadow-xl flex flex-col md:flex-row justify-between items-center text-white">
+                <div class="text-center md:text-left mb-6 md:mb-0">
+                    <h3 class="text-3xl font-bold mb-1">Ready to take control of your medicines?</h3>
+                    <p class="text-white/70 text-lg">Create an account and start tracking in seconds — no complex setup
+                        required.</p>
+                </div>
+                <div>
+                    <a class="py-3 px-8 text-lg font-bold bg-white text-black rounded-full shadow-lg hover:bg-gray-100 transition duration-150 inline-block"
+                        href="/registration.html">
+                        Create account
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-100 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 mt-12 transition-colors duration-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid grid-cols-1 md:grid-cols-4 gap-8 text-sm">
+
+    <!-- Logo and About -->
+    <div>
+      <div class="flex items-center space-x-2 mb-3">
+        <div class="w-9 h-9 bg-brand-color text-white font-bold rounded-md flex items-center justify-center shadow-md">
+          PC
+        </div>
+        <h2 class="text-gray-800 dark:text-gray-200 font-semibold text-lg">PharmaCare</h2>
+      </div>
+      <p class="text-gray-600 dark:text-gray-400">
+        PharmaCare is a complete medical representative management system designed to simplify medicine tracking, sales monitoring, and stock management efficiently.
+      </p>
+    </div>
+
+    <!-- Quick Links -->
+    <div>
+      <h3 class="text-gray-800 dark:text-gray-200 font-semibold mb-3">Quick Links</h3>
+      <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+        <li><a href="/dashboard.html" class="hover:text-brand-color transition duration-150">Dashboard</a></li>
+        <li><a href="#" class="hover:text-brand-color transition duration-150">Medicine Inventory</a></li>
+        <li><a href="#" class="hover:text-brand-color transition duration-150">Reports</a></li>
+        <li><a href="#" class="hover:text-brand-color transition duration-150">Alerts & Notifications</a></li>
+      </ul>
+    </div>
+
+    <!-- Support -->
+    <div>
+      <h3 class="text-gray-800 dark:text-gray-200 font-semibold mb-3">Support</h3>
+      <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+        <li><a href="#" class="hover:text-brand-color transition duration-150">Help Center</a></li>
+        <li><a href="#" class="hover:text-brand-color transition duration-150">FAQs</a></li>
+        <li><a href="#" class="hover:text-brand-color transition duration-150">Privacy Policy</a></li>
+        <li><a href="#" class="hover:text-brand-color transition duration-150">Terms of Use</a></li>
+      </ul>
+    </div>
+
+    <!-- Contact Info -->
+    <div>
+      <h3 class="text-gray-800 dark:text-gray-200 font-semibold mb-3">Contact Us</h3>
+      <ul class="text-gray-600 dark:text-gray-400 space-y-2">
+        <li><i class="fas fa-envelope mr-2"></i> support@pharmacare.com</li>
+        <li><i class="fas fa-phone mr-2"></i> +91 98765 43210</li>
+        <li><i class="fas fa-map-marker-alt mr-2"></i> Mumbai, India</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</footer>
+
+
+    <script>
+        // Theme Toggle Logic
+        const body = document.body;
+        const toggleButton = document.getElementById('theme-toggle');
+        const iconLight = document.getElementById('theme-icon-light');
+        const iconDark = document.getElementById('theme-icon-dark');
+
+        // 1. Check for preference in localStorage or OS preference
+        const storedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        // Function to apply the theme classes and icons
+        function applyTheme(isDark) {
+            if (isDark) {
+                body.classList.add('dark');
+                iconLight.classList.add('hidden');
+                iconDark.classList.remove('hidden');
+            } else {
+                body.classList.remove('dark');
+                iconLight.classList.remove('hidden');
+                iconDark.classList.add('hidden');
+            }
+        }
+
+        // Set initial theme on load
+        // Default to dark if stored, or if system prefers dark and no setting is stored.
+        const initialDark = (storedTheme === 'dark' || (!storedTheme && prefersDark));
+        applyTheme(initialDark);
+
+        // 2. Handle click event
+        toggleButton.addEventListener('click', () => {
+            const isCurrentlyDark = body.classList.contains('dark');
+            const newDarkState = !isCurrentlyDark;
+
+            applyTheme(newDarkState);
+
+            // Update localStorage
+            localStorage.setItem('theme', newDarkState ? 'dark' : 'light');
+        });
+
+        // Mobile Nav Toggle Logic (from original code)
+        const navToggleButton = document.getElementById('nav-toggle');
+        const mobileNav = document.getElementById('mobile-nav');
+
+        navToggleButton && navToggleButton.addEventListener('click', () => {
+            const expanded = navToggleButton.getAttribute('aria-expanded') === 'true';
+            navToggleButton.setAttribute('aria-expanded', String(!expanded));
+            mobileNav && mobileNav.classList.toggle('hidden');
+        });
+
+        // Set year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+
+</html>

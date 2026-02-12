@@ -1,0 +1,606 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Profile — PharmaCare</title>
+  <script>
+    // Set the dark mode strategy to 'class'
+    tailwind.config = {
+      darkMode: "class",
+    };
+  </script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* --- Light Mode Brand Colors (Default) --- */
+    .brand-color {
+      color: #10b981;
+      /* Tailwind emerald-500 */
+    }
+
+    .bg-brand-color {
+      background-color: #10b981;
+    }
+
+    /* --- Dark Mode Brand Colors (Applied when <body> has class="dark") --- */
+    /* Change brand color text to a brighter shade for contrast in dark mode */
+    .dark .brand-color {
+      color: #34d399;
+      /* Tailwind emerald-400 (brighter for dark mode) */
+    }
+
+    /* Change brand color background to a slightly darker shade in dark mode */
+    .dark .bg-brand-color {
+      background-color: #059669;
+      /* Tailwind emerald-600 */
+    }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+  <header
+    class="shadow-md border-b border-green-100 dark:border-gray-800 bg-gradient-to-r from-green-50 to-white dark:from-gray-800 dark:to-gray-900 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-3">
+      <!-- LOGO + BRAND -->
+      <a href="/" class="flex items-center space-x-4 group">
+        <!-- LOGO WRAPPER -->
+        <div
+          class="bg-green-100 rounded-full p-1.5 flex items-center justify-center shadow-md group-hover:scale-105 transition-transform duration-300 border-2 border-green-400">
+          <img src="{% static 'logo.png' %}" alt="PharmaCare Logo" class="w-20 h-20 object-contain rounded-full" />
+        </div>
+        <!-- BRAND NAME -->
+        <div class="flex flex-col leading-snug">
+          <h1
+            class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-green-600 transition duration-200">
+            PharmaCare
+          </h1>
+          <p class="text-sm text-gray-600 dark:text-gray-400 italic">
+            Smart Medicine Expiry Alerts
+          </p>
+        </div>
+      </a>
+
+      <!-- NAVIGATION -->
+      <div class="flex items-center space-x-6">
+        <nav class="hidden md:flex space-x-6 text-base font-medium">
+          <a href="/"
+            class="text-gray-700 dark:text-gray-300 hover:text-green-600 hover:border-b-2 hover:border-green-500 pb-1 transition duration-150">Home</a>
+          <a href="/dashboard.html"
+            class="text-gray-700 dark:text-gray-300 hover:text-green-600 hover:border-b-2 hover:border-green-500 pb-1 transition duration-150">MyDashboard</a>
+          <a href="/profile.html"
+            class="text-green-700 dark:text-green-400 font-semibold border-b-2 border-green-500 pb-1 transition duration-150">Profile</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main
+    class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-500">
+    <div
+      class="w-full max-w-md mx-6 sm:mx-16 md:mx-24 lg:mx-32 p-8 bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl shadow-2xl rounded-3xl">
+      <div class="text-center mb-8">
+        <div class="flex justify-center mb-3">
+          <div class="w-12 h-12 flex items-center justify-center bg-green-100 dark:bg-green-900 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+              stroke="currentColor" class="w-7 h-7 text-green-600 dark:text-green-400">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+          </div>
+        </div>
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white">
+          Profile
+        </h2>
+        <p class="text-gray-600 dark:text-gray-300 mt-2" id="profile">
+          Loading...
+        </p>
+      </div>
+
+      <div id="profileContent" class="space-y-4 hidden">
+        <div class="text-left">
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
+          <p id="profileName" class="mt-1 p-2 bg-gray-100 dark:bg-gray-700 rounded-lg text-gray-900 dark:text-gray-100">
+          </p>
+          <input id="editName" type="text"
+            class="mt-1 p-2 bg-white dark:bg-gray-600 rounded-lg text-gray-900 dark:text-gray-100 hidden w-full" />
+        </div>
+        <div class="text-left">
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Shop Name</label>
+          <p id="profileShop" class="mt-1 p-2 bg-gray-100 dark:bg-gray-700 rounded-lg text-gray-900 dark:text-gray-100">
+          </p>
+          <input id="editShop" type="text"
+            class="mt-1 p-2 bg-white dark:bg-gray-600 rounded-lg text-gray-900 dark:text-gray-100 hidden w-full" />
+        </div>
+        <div class="text-left">
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Phone</label>
+          <p id="profilePhone"
+            class="mt-1 p-2 bg-gray-100 dark:bg-gray-700 rounded-lg text-gray-900 dark:text-gray-100"></p>
+          <input id="editPhone" type="tel"
+            class="mt-1 p-2 bg-white dark:bg-gray-600 rounded-lg text-gray-900 dark:text-gray-100 hidden w-full" />
+        </div>
+        <div class="text-left">
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Place</label>
+          <p id="profilePlace"
+            class="mt-1 p-2 bg-gray-100 dark:bg-gray-700 rounded-lg text-gray-900 dark:text-gray-100"></p>
+          <input id="editPlace" type="text"
+            class="mt-1 p-2 bg-white dark:bg-gray-600 rounded-lg text-gray-900 dark:text-gray-100 hidden w-full" />
+        </div>
+        <div class="flex space-x-4 mt-4">
+          <button id="editBtn"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-xl shadow-md transform hover:-translate-y-0.5 transition-all duration-300">
+            Edit
+          </button>
+          <button id="dashboardBtn"
+            class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-xl shadow-md transform hover:-translate-y-0.5 transition-all duration-300">
+            Dashboard
+          </button>
+          <button id="updateProfileBtn"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-xl shadow-md transform hover:-translate-y-0.5 transition-all duration-300">
+            Update Profile
+          </button>
+        </div>
+      </div>
+
+      <div class="mt-6">
+        <button onclick="logout()"
+          class="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-3 rounded-xl shadow-md transform hover:-translate-y-0.5 transition-all duration-300">
+          Logout
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <footer
+    class="bg-gray-100 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 mt-12 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid grid-cols-1 md:grid-cols-4 gap-8 text-sm">
+      <div>
+        <div class="flex items-center space-x-2 mb-3">
+          <div
+            class="w-9 h-9 bg-brand-color text-white font-bold rounded-md flex items-center justify-center shadow-md">
+            PC
+          </div>
+          <h2 class="text-gray-800 dark:text-gray-200 font-semibold text-lg">
+            PharmaCare
+          </h2>
+        </div>
+        <p class="text-gray-600 dark:text-gray-400">
+          PharmaCare is a complete medical representative management system
+          designed to simplify medicine tracking, sales monitoring, and stock
+          management efficiently.
+        </p>
+      </div>
+      <div>
+        <h3 class="text-gray-800 dark:text-gray-200 font-semibold mb-3">
+          Quick Links
+        </h3>
+        <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+          <li>
+            <a href="#" class="hover:text-brand-color transition duration-150">Dashboard</a>
+          </li>
+          <li>
+            <a href="#" class="hover:text-brand-color transition duration-150">Medicine Inventory</a>
+          </li>
+          <li>
+            <a href="#" class="hover:text-brand-color transition duration-150">Reports</a>
+          </li>
+          <li>
+            <a href="#" class="hover:text-brand-color transition duration-150">Alerts & Notifications</a>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-gray-800 dark:text-gray-200 font-semibold mb-3">
+          Support
+        </h3>
+        <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+          <li>
+            <a href="#" class="hover:text-brand-color transition duration-150">Help Center</a>
+          </li>
+          <li>
+            <a href="#" class="hover:text-brand-color transition duration-150">FAQs</a>
+          </li>
+          <li>
+            <a href="#" class="hover:text-brand-color transition duration-150">Privacy Policy</a>
+          </li>
+          <li>
+            <a href="#" class="hover:text-brand-color transition duration-150">Terms of Use</a>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-gray-800 dark:text-gray-200 font-semibold mb-3">
+          Contact Us
+        </h3>
+        <ul class="text-gray-600 dark:text-gray-400 space-y-2">
+          <li><i class="fas fa-envelope mr-2"></i> support@pharmacare.com</li>
+          <li><i class="fas fa-phone mr-2"></i> +91 98765 43210</li>
+          <li><i class="fas fa-map-marker-alt mr-2"></i> Mumbai, India</li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    console.log('[profile.html] Script loaded');
+
+    // Check authentication on page load
+    async function checkAuth() {
+      console.log('[checkAuth] Starting');
+      const loggedInUser = localStorage.getItem("meditrack_logged_in");
+      console.log('[checkAuth] loggedInUser from localStorage:', loggedInUser ? 'found' : 'not found');
+
+      if (!loggedInUser) {
+        console.log('[checkAuth] No user in localStorage, redirecting to login');
+        window.location.href = "login.html";
+        return;
+      }
+
+      // Verify session with server
+      try {
+        console.log('[checkAuth] Verifying with server...');
+        const response = await fetch("/profile_api", { credentials: 'include' });
+        console.log('[checkAuth] Server response status:', response.status);
+
+        if (!response.ok) {
+          console.error('[checkAuth] Server returned error');
+          localStorage.removeItem("meditrack_logged_in");
+          window.location.href = "/login.html";
+          return;
+        }
+        console.log('[checkAuth] Server verified, auth success');
+      } catch (error) {
+        console.error('[checkAuth] Auth check failed:', error);
+        localStorage.removeItem("meditrack_logged_in");
+        window.location.href = "/login.html";
+        return;
+      }
+    }
+
+    // Run auth check when page loads
+    window.addEventListener("DOMContentLoaded", checkAuth);
+
+    const yearEl = document.getElementById("year");
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+    let isEditing = false;
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      const msg = document.getElementById("profile");
+      const content = document.getElementById("profileContent");
+
+      // Helper to render Admin Panel button when appropriate
+      function renderAdminButton(userObj, isSuper = false) {
+        try {
+          const actionsDiv = document.querySelector(".flex.space-x-4.mt-4");
+          if (!actionsDiv) return;
+          const existing = document.getElementById("adminBtn");
+          if (existing) existing.remove();
+          const isAdmin =
+            (userObj && userObj.role === "admin") ||
+            isSuper ||
+            (userObj && userObj.email === "mouryarakesh512@gmail.com");
+          if (!isAdmin) return;
+          const btn = document.createElement("button");
+          btn.id = "adminBtn";
+          btn.className =
+            "bg-gray-800 hover:bg-gray-900 text-white font-medium py-2 px-4 rounded-xl shadow-md transform hover:-translate-y-0.5 transition-all duration-300";
+          btn.textContent = "Admin Panel";
+          btn.addEventListener("click", async () => {
+            try {
+              // Verify server-side session and role before redirecting
+              const res = await fetch("/profile_api", { credentials: 'include' });
+              if (!res.ok) {
+                // Not authenticated: go to login
+                window.location.href = "/login.html";
+                return;
+              }
+              const data = await res.json();
+              const serverIsAdmin =
+                (data.user && data.user.role === "admin") ||
+                (data.user &&
+                  data.user.email === "mouryarakesh512@gmail.com");
+              if (serverIsAdmin) {
+                window.location.href = "/admin.html";
+              } else {
+                alert("You are not authorized to access the Admin Panel.");
+              }
+            } catch (err) {
+              console.error("Admin button redirect failed", err);
+              // Fallback: attempt to navigate to /admin (server will redirect if not allowed)
+              window.location.href = "/admin";
+            }
+          });
+          const updateBtn = document.getElementById("updateProfileBtn");
+          if (updateBtn && updateBtn.parentNode) {
+            updateBtn.parentNode.insertBefore(btn, updateBtn);
+          } else {
+            actionsDiv.appendChild(btn);
+          }
+        } catch (e) {
+          console.error("Render admin button error", e);
+        }
+      }
+
+      // First, load data from localStorage for immediate display
+      const loggedInUser = localStorage.getItem("meditrack_logged_in");
+      if (loggedInUser) {
+        const user = JSON.parse(loggedInUser);
+        document.getElementById("profileName").textContent =
+          user.name || "N/A";
+        document.getElementById("profileShop").textContent =
+          user.org || "N/A";
+        document.getElementById("profilePhone").textContent =
+          user.phone || "N/A";
+        document.getElementById("profilePlace").textContent =
+          user.place || "";
+        document.getElementById("editName").value = user.name || "";
+        document.getElementById("editShop").value = user.org || "";
+        document.getElementById("editPhone").value = user.phone || "";
+        document.getElementById("editPlace").value = user.place || "";
+        msg.textContent = "Welcome back!";
+        content.classList.remove("hidden");
+        // Show Admin Panel button if cached user is admin/super-admin
+        try {
+          renderAdminButton(
+            user,
+            user && user.email === "mouryarakesh512@gmail.com",
+          );
+        } catch (e) {
+          /* ignore */
+        }
+      }
+
+      // Then fetch updated data from server
+      try {
+        const response = await fetch("/profile_api", { credentials: 'include' });
+        if (response.ok) {
+          const data = await response.json();
+          const user = data.user;
+          // Update with server data (in case it changed)
+          document.getElementById("profileName").textContent =
+            user.name || "N/A";
+          document.getElementById("profileShop").textContent =
+            user.org || "N/A";
+          document.getElementById("profilePhone").textContent =
+            user.phone || "N/A";
+          document.getElementById("profilePlace").textContent =
+            user.place || "";
+          document.getElementById("editName").value = user.name || "";
+          document.getElementById("editShop").value = user.org || "";
+          document.getElementById("editPhone").value = user.phone || "";
+          document.getElementById("editPlace").value = user.place || "";
+          // Update localStorage with latest data
+          localStorage.setItem("meditrack_logged_in", JSON.stringify(user));
+          // Clear success message (do not show persistent text)
+          msg.textContent = "";
+          content.classList.remove("hidden");
+          // Show admin button if server indicates admin/super-admin
+          try {
+            renderAdminButton(user, !!data.isSuperAdmin);
+          } catch (e) {
+            /* ignore */
+          }
+
+          // Attach button event listeners after content is visible
+          attachButtonListeners();
+        } else {
+          // If server fetch fails but we have localStorage data, keep it
+          if (!loggedInUser) {
+            msg.textContent =
+              "You are not logged in. Redirecting to login...";
+            setTimeout(() => {
+              window.location.href = "login.html";
+            }, 2000);
+          } else {
+            msg.textContent =
+              "Using cached profile data. Please refresh if needed.";
+          }
+          // Attach button event listeners after content is visible
+          attachButtonListeners();
+        }
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+        // If server fetch fails but we have localStorage data, keep it
+        if (!loggedInUser) {
+          msg.textContent = "Error loading profile. Redirecting to login...";
+          setTimeout(() => {
+            window.location.href = "login.html";
+          }, 2000);
+        } else {
+          msg.textContent =
+            "Using cached profile data. Please refresh if needed.";
+        }
+      }
+    });
+
+    function attachButtonListeners() {
+      // Attach all button event listeners
+      document.getElementById("editBtn").addEventListener("click", () => {
+        const editBtn = document.getElementById("editBtn");
+        const nameP = document.getElementById("profileName");
+        const shopP = document.getElementById("profileShop");
+        const placeP = document.getElementById("profilePlace");
+        const nameInput = document.getElementById("editName");
+        const shopInput = document.getElementById("editShop");
+        const placeInput = document.getElementById("editPlace");
+
+        if (!isEditing) {
+          // Enter edit mode - show inputs, hide display text
+          nameP.classList.add("hidden");
+          shopP.classList.add("hidden");
+          const phoneP = document.getElementById("profilePhone");
+          const phoneInput = document.getElementById("editPhone");
+          phoneP.classList.add("hidden");
+          placeP.classList.add("hidden");
+          nameInput.classList.remove("hidden");
+          shopInput.classList.remove("hidden");
+          phoneInput.classList.remove("hidden");
+          placeInput.classList.remove("hidden");
+          editBtn.textContent = "Cancel";
+          isEditing = true;
+        } else {
+          // Exit edit mode without saving - hide inputs, show display text
+          nameP.classList.remove("hidden");
+          shopP.classList.remove("hidden");
+          const phoneP = document.getElementById("profilePhone");
+          const phoneInput = document.getElementById("editPhone");
+          phoneP.classList.remove("hidden");
+          placeP.classList.remove("hidden");
+          nameInput.classList.add("hidden");
+          shopInput.classList.add("hidden");
+          phoneInput.classList.add("hidden");
+          placeInput.classList.add("hidden");
+          editBtn.textContent = "Edit";
+          isEditing = false;
+        }
+      });
+
+      document
+        .getElementById("dashboardBtn")
+        .addEventListener("click", () => {
+          console.log("Dashboard button clicked");
+          window.location.href = "/dashboard.html";
+        });
+
+      const updateBtn = document.getElementById("updateProfileBtn");
+      if (updateBtn) {
+        updateBtn.addEventListener("click", () => {
+          if (!isEditing) {
+            alert("Click 'Edit' first to edit your profile");
+            return;
+          }
+          // Save the profile
+          saveProfile();
+        });
+      }
+    }
+
+    function saveProfile() {
+      const nameInput = document.getElementById("editName");
+      const shopInput = document.getElementById("editShop");
+      const phoneInput = document.getElementById("editPhone");
+      const placeInput = document.getElementById("editPlace");
+      const stored = localStorage.getItem("meditrack_logged_in");
+      const storedUser = stored ? JSON.parse(stored) : {};
+      const updatedUser = {
+        name: nameInput.value.trim(),
+        email: storedUser.email || "",
+        phone: phoneInput.value.trim(),
+        org: shopInput.value.trim(),
+        place: placeInput.value.trim(),
+      };
+      if (!updatedUser.name || !updatedUser.email) {
+        alert("Name and email are required");
+        return Promise.reject(new Error("Name and email required"));
+      }
+      return fetch("/update-profile", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCookie("csrftoken"),
+        },
+        body: JSON.stringify(updatedUser),
+        credentials: 'include'
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.message) {
+            const nameP = document.getElementById("profileName");
+            const shopP = document.getElementById("profileShop");
+            const phoneP = document.getElementById("profilePhone");
+            const placeP = document.getElementById("profilePlace");
+            nameP.textContent = updatedUser.name;
+            shopP.textContent = updatedUser.org;
+            phoneP.textContent = updatedUser.phone;
+            placeP.textContent = updatedUser.place;
+            // Hide inputs and show display text
+            nameP.classList.remove("hidden");
+            shopP.classList.remove("hidden");
+            phoneP.classList.remove("hidden");
+            placeP.classList.remove("hidden");
+            document.getElementById("editName").classList.add("hidden");
+            document.getElementById("editShop").classList.add("hidden");
+            document.getElementById("editPhone").classList.add("hidden");
+            document.getElementById("editPlace").classList.add("hidden");
+            // Reset Edit button text and isEditing flag
+            document.getElementById("editBtn").textContent = "Edit";
+            isEditing = false;
+            // Update localStorage copy
+            const newLocal = Object.assign(storedUser, {
+              name: updatedUser.name,
+              org: updatedUser.org,
+              phone: updatedUser.phone,
+              place: updatedUser.place,
+            });
+            localStorage.setItem(
+              "meditrack_logged_in",
+              JSON.stringify(newLocal),
+            );
+            alert("Profile updated successfully");
+            return data;
+          } else {
+            alert("Error updating profile: " + data.error);
+            return Promise.reject(new Error(data.error || "Update failed"));
+          }
+        })
+        .catch((err) => {
+          console.error("Error updating profile:", err);
+          alert("Error updating profile");
+          throw err;
+        });
+    }
+
+    function logout() {
+      fetch("/logout", { method: "POST", credentials: "include" })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Logout successful:", data);
+          localStorage.removeItem("meditrack_logged_in");
+          window.location.href = "login.html";
+        })
+        .catch((error) => {
+          console.error("Logout error:", error);
+          localStorage.removeItem("meditrack_logged_in");
+          window.location.href = "login.html";
+        });
+    }
+
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === name + "=") {
+            cookieValue = decodeURIComponent(
+              cookie.substring(name.length + 1),
+            );
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+
+    // Dark mode toggle
+    const themeToggle = document.getElementById("theme-toggle");
+    const html = document.documentElement;
+    const lightIcon = document.getElementById("theme-icon-light");
+    const darkIcon = document.getElementById("theme-icon-dark");
+
+    themeToggle.addEventListener("click", () => {
+      html.classList.toggle("dark");
+      lightIcon.classList.toggle("hidden");
+      darkIcon.classList.toggle("hidden");
+    });
+  </script>
+</body>
+
+</html>

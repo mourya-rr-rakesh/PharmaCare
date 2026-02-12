@@ -1,0 +1,316 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Total Medicines — PharmaCare</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family:
+          Inter,
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          "Helvetica Neue",
+          Arial;
+      }
+      /* Responsive table -> stacked cards (same as soon-expiring) */
+      table th,
+      table td {
+        white-space: normal;
+        word-break: break-word;
+      }
+      @media (max-width: 1024px) {
+        .overflow-x-auto {
+          overflow-x: hidden;
+        }
+        table thead {
+          display: none;
+        }
+        table,
+        tbody,
+        tr,
+        td {
+          display: block;
+          width: 100%;
+        }
+        tr {
+          margin-bottom: 0.75rem;
+          padding: 0.75rem;
+          border-radius: 0.5rem;
+          background: inherit;
+          border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+        td {
+          display: flex;
+          justify-content: space-between;
+          align-items: baseline;
+          padding: 0.35rem 0;
+          border: 0;
+        }
+        td::before {
+          content: attr(data-label);
+          font-weight: 600;
+          color: #374151;
+          margin-right: 0.5rem;
+          flex: 0 0 40%;
+        }
+        td > span {
+          flex: 1 1 auto;
+          text-align: right;
+          color: #111827;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <header
+      class="shadow-md border-b border-green-100 dark:border-gray-800 bg-gradient-to-r from-green-50 to-white dark:from-gray-800 dark:to-gray-900"
+    >
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-3"
+      >
+        <a href="/" class="flex items-center space-x-4">
+          <div
+            class="bg-green-100 rounded-full p-1.5 flex items-center justify-center shadow-md border-2 border-green-400"
+          >
+            <img
+              src="{% static 'logo.png' %}"
+              alt="logo"
+              class="w-16 h-16 rounded-full"
+            />
+          </div>
+          <div class="flex flex-col">
+            <h1 class="text-2xl font-bold">PharmaCare</h1>
+            <p class="text-sm text-gray-600">Smart Medicine Expiry Alerts</p>
+          </div>
+        </a>
+        <nav class="hidden md:flex space-x-6">
+          <a href="/dashboard.html" class="hover:text-green-600">Dashboard</a>
+          <a href="/soon-expiring.html" class="hover:text-green-600"
+            >Soon Expiring</a
+          >
+          <a href="/total-medicines.html" class="font-semibold text-green-700"
+            >All Medicines</a
+          >
+          <a
+            href="/profile.html"
+            class="text-gray-700 dark:text-gray-300 hover:text-green-600 hover:border-b-2 hover:border-green-500 pb-1 transition duration-150"
+            >Profile</a
+          >
+          <a
+            href="/billing.html"
+            class="text-gray-700 dark:text-gray-300 hover:text-green-600 hover:border-b-2 hover:border-green-500 pb-1 transition duration-150"
+            id="logout-link"
+            >Invoice</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <!-- Search bar -->
+    <div class="max-w-xl mx-auto mb-6">
+      <label for="totalSearch" class="sr-only">Search medicines</label>
+      <div class="relative">
+        <input
+          id="totalSearch"
+          type="search"
+          placeholder="Search by name, type or composition..."
+          class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-300 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+        />
+        <button
+          id="clearSearch"
+          type="button"
+          title="Clear"
+          class="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-gray-500"
+        >
+          ✕
+        </button>
+      </div>
+    </div>
+    <main>
+      <!-- Medicine List Table -->
+      <div class="overflow-y-auto">
+        <div class="bg-white dark:bg-gray-800 shadow rounded-2xl p-6">
+          <div class="overflow-x-auto">
+            <table class="w-full table-auto border-collapse">
+              <thead>
+                <tr class="bg-green-100 dark:bg-gray-700 text-left">
+                  <th
+                    class="px-4 py-2 font-semibold text-gray-700 dark:text-gray-300"
+                  >
+                    Name
+                  </th>
+                  <th
+                    class="px-4 py-2 font-semibold text-gray-700 dark:text-gray-300"
+                  >
+                    type
+                  </th>
+                  <th
+                    class="px-4 py-2 font-semibold text-gray-700 dark:text-gray-300"
+                  >
+                    Composition
+                  </th>
+                  <th
+                    class="px-4 py-2 font-semibold text-gray-700 dark:text-gray-300"
+                  >
+                    Mfg Date
+                  </th>
+                  <th
+                    class="px-4 py-2 font-semibold text-gray-700 dark:text-gray-300"
+                  >
+                    Exp Date
+                  </th>
+                  <th
+                    class="px-4 py-2 font-semibold text-gray-700 dark:text-gray-300"
+                  >
+                    MRP
+                  </th>
+                  <th
+                    class="px-4 py-2 font-semibold text-gray-700 dark:text-gray-300"
+                  >
+                    Buy Price
+                  </th>
+                  <th
+                    class="px-4 py-2 font-semibold text-gray-700 dark:text-gray-300"
+                  >
+                    Sell Price
+                  </th>
+                  <th
+                    class="px-4 py-2 font-semibold text-gray-700 dark:text-gray-300"
+                  >
+                    Stock
+                  </th>
+                  <th
+                    class="px-4 py-2 font-semibold text-gray-700 dark:text-gray-300"
+                  >
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody
+                id="totalMedList"
+                class="text-gray-800 dark:text-gray-200"
+              ></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer
+      class="bg-gray-100 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 mt-12 transition-colors duration-300"
+    >
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid grid-cols-1 md:grid-cols-4 gap-8 text-sm"
+      >
+        <!-- Logo and About -->
+        <div>
+          <div class="flex items-center space-x-2 mb-3">
+            <div
+              class="w-9 h-9 bg-brand-color text-white font-bold rounded-md flex items-center justify-center shadow-md"
+            >
+              PC
+            </div>
+            <h2 class="text-gray-800 dark:text-gray-200 font-semibold text-lg">
+              PharmaCare
+            </h2>
+          </div>
+          <p class="text-gray-600 dark:text-gray-400">
+            PharmaCare is a complete medical representative management system
+            designed to simplify medicine tracking, sales monitoring, and stock
+            management efficiently.
+          </p>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h3 class="text-gray-800 dark:text-gray-200 font-semibold mb-3">
+            Quick Links
+          </h3>
+          <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+            <li>
+              <a href="/" class="hover:text-brand-color transition duration-150"
+                >Home</a
+              >
+            </li>
+            <li>
+              <a
+                href="/dashboard.html"
+                class="hover:text-brand-color transition duration-150"
+                >Dashboard</a
+              >
+            </li>
+            <li>
+              <a
+                href="/registration.html"
+                class="hover:text-brand-color transition duration-150"
+                >Registration</a
+              >
+            </li>
+            <li>
+              <a
+                href="/login.html"
+                class="hover:text-brand-color transition duration-150"
+                >Login</a
+              >
+            </li>
+            <li>
+              <a
+                href="/profile.html"
+                class="hover:text-brand-color transition duration-150"
+                >Profile</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <!-- Support -->
+        <div>
+          <h3 class="text-gray-800 dark:text-gray-200 font-semibold mb-3">
+            Support
+          </h3>
+          <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+            <li>
+              <a href="#" class="hover:text-brand-color transition duration-150"
+                >Help Center</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:text-brand-color transition duration-150"
+                >FAQs</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:text-brand-color transition duration-150"
+                >Privacy Policy</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:text-brand-color transition duration-150"
+                >Terms of Use</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <!-- Contact Info -->
+        <div>
+          <h3 class="text-gray-800 dark:text-gray-200 font-semibold mb-3">
+            Contact Us
+          </h3>
+          <ul class="text-gray-600 dark:text-gray-400 space-y-2">
+            <li><i class="fas fa-envelope mr-2"></i> support@pharmacare.com</li>
+            <li><i class="fas fa-phone mr-2"></i> +91 98765 43210</li>
+            <li><i class="fas fa-map-marker-alt mr-2"></i> Mumbai, India</li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    <script src="{% static 'js/total-medicines.js' %}"></script>
+  </body>
+</html>

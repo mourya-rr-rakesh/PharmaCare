@@ -1,0 +1,187 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Billing — PharmaCare</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+    .chat-bubble { background: #f3f4f6; padding: 0.5rem 0.75rem; border-radius: 0.5rem; }
+    .chat-bubble.user { background: #dcfce7; text-align: right; }
+  </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+  <header
+    class="shadow-md border-b border-green-100 dark:border-gray-800 bg-gradient-to-r from-green-50 to-white dark:from-gray-800 dark:to-gray-900 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-3">
+
+      <!-- LOGO + BRAND -->
+      <a href="/" class="flex items-center space-x-4 group">
+        <!-- LOGO WRAPPER -->
+       <div
+          class="bg-green-100 rounded-full p-1.5 flex items-center justify-center shadow-md group-hover:scale-105 transition-transform duration-300 border-2 border-green-400">
+          <img src="{% static 'logo.png' %}"alt="PharmaCare Logo"
+            class="w-20 h-20 object-contain rounded-full" />
+        </div>
+        <!-- BRAND NAME -->
+        <div class="flex flex-col leading-snug">
+          <h1
+            class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-green-600 transition duration-200">
+            PharmaCare
+          </h1>
+          <p class="text-sm text-gray-600 dark:text-gray-400 italic">
+            Smart Medicine Expiry Alerts
+          </p>
+        </div>
+      </a>
+
+      <!-- NAVIGATION -->
+      <div class="flex items-center space-x-6">
+        <nav class="hidden md:flex space-x-6 text-base font-medium">
+          <a href="/"
+            class="text-gray-700 dark:text-gray-300 hover:text-green-600 hover:border-b-2 hover:border-green-500 pb-1 transition duration-150">Home</a>
+          <a href="/dashboard.html"
+            class="text-gray-700 dark:text-gray-300 hover:text-green-600 hover:border-b-2 hover:border-green-500 pb-1 transition duration-150">Dashboard</a>
+          <a href="/profile.html"
+            class="text-gray-700 dark:text-gray-300 hover:text-green-600 hover:border-b-2 hover:border-green-500 pb-1 transition duration-150">Profile</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="container mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Chat / Query -->
+    <section class="col-span-2 bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
+      
+      <div class="flex gap-2">
+        <input id="chatInput" class="flex-1 border rounded p-2 bg-white dark:bg-gray-800" placeholder="Ask: price of Paracetamol or add Paracetamol 2" />
+        <button id="chatSend" class="px-4 py-2 bg-green-600 text-white rounded">Send</button>
+      </div>
+
+      <div class="mt-6">
+        <h3 class="font-semibold">Invoice Preview</h3>
+        <div id="invoicePreview" class="mt-2 p-3 border rounded bg-white dark:bg-gray-800 min-h-[120px]"></div>
+        <div class="mt-3 flex gap-2">
+          <button id="printBtn" class="px-4 py-2 bg-blue-600 text-white rounded">Print Invoice</button>
+          <button id="createInvoiceBtn" class="px-4 py-2 bg-green-500 text-white rounded">Create & Save Invoice</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Products / Cart -->
+    <aside class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
+      <h2 class="text-lg font-semibold mb-2">Medicines</h2>
+      <!-- Quick add with autocomplete -->
+      <div class="mb-3">
+        <label class="block text-sm font-medium mb-1">Quick Add Medicine</label>
+        <div class="relative">
+          <input id="quickMed" class="w-full border rounded p-2 bg-white dark:bg-gray-800" placeholder="Type medicine name..." autocomplete="off" />
+          <ul id="quickSuggestions" class="absolute left-0 right-0 bg-white dark:bg-gray-800 border mt-1 max-h-40 overflow-y-auto hidden z-10"></ul>
+        </div>
+        <div class="flex items-center gap-2 mt-2">
+          <div class="text-sm text-gray-600">MRP: <span id="quickMrp">₹0.00</span></div>
+          <input id="quickQty" type="number" min="1" value="1" class="w-20 p-1 rounded border ml-auto" />
+          <button id="quickAddBtn" class="px-3 py-1 bg-green-500 text-white rounded">Add</button>
+        </div>
+      </div>
+
+      <div id="medList" class="space-y-2 max-h-80 overflow-y-auto"></div>
+
+      <h3 class="mt-4 font-semibold">Cart</h3>
+      <div id="cartList" class="mt-2 space-y-2"></div>
+      <div class="mt-3 font-semibold">Total: <span id="cartTotal">0.00</span></div>
+
+      <div id="adminControls" class="mt-4 hidden">
+        <h4 class="font-semibold">Admin: Markup % (runtime)</h4>
+        <div class="flex gap-2 mt-2">
+          <input id="markupInput" type="number" min="0" max="1000" class="w-24 p-1 rounded border" />
+          <button id="setMarkupBtn" class="px-3 py-1 bg-yellow-500 text-white rounded">Set</button>
+        </div>
+        <div class="text-sm text-gray-500 mt-2">Current runtime markup: <span id="currentMarkup">0</span>%</div>
+      </div>
+    </aside>
+  </main>
+
+</section>
+
+  <!-- Footer: same structure as other pages -->
+  <footer
+    class="bg-gray-100 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 mt-12 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid grid-cols-1 md:grid-cols-4 gap-8 text-sm">
+
+      <!-- Logo and About -->
+      <div>
+        <div class="flex items-center space-x-2 mb-3">
+          <div
+            class="w-9 h-9 bg-brand-color text-white font-bold rounded-md flex items-center justify-center shadow-md">
+            PC
+          </div>
+          <h2 class="text-gray-800 dark:text-gray-200 font-semibold text-lg">PharmaCare</h2>
+        </div>
+        <p class="text-gray-600 dark:text-gray-400">
+          PharmaCare is a complete medical representative management system designed to simplify medicine
+          tracking, sales monitoring, and stock management efficiently.
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h3 class="text-gray-800 dark:text-gray-200 font-semibold mb-3">Quick Links</h3>
+        <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+          <li><a href="/" class="hover:text-brand-color transition duration-150">Home</a></li>
+          <li><a href="/dashboard.html" class="hover:text-brand-color transition duration-150">Dashboard</a></li>
+          <li><a href="/registration.html" class="hover:text-brand-color transition duration-150">Registration</a></li>
+          <li><a href="/login.html" class="hover:text-brand-color transition duration-150">Login</a></li>
+          <li><a href="/profile.html" class="hover:text-brand-color transition duration-150">Profile</a></li>
+        </ul>
+      </div>
+
+      <!-- Support -->
+      <div>
+        <h3 class="text-gray-800 dark:text-gray-200 font-semibold mb-3">Support</h3>
+        <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+          <li><a href="#" class="hover:text-brand-color transition duration-150">Help Center</a></li>
+          <li><a href="#" class="hover:text-brand-color transition duration-150">FAQs</a></li>
+          <li><a href="#" class="hover:text-brand-color transition duration-150">Privacy Policy</a></li>
+          <li><a href="#" class="hover:text-brand-color transition duration-150">Terms of Use</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact Info -->
+      <div>
+        <h3 class="text-gray-800 dark:text-gray-200 font-semibold mb-3">Contact Us</h3>
+        <ul class="text-gray-600 dark:text-gray-400 space-y-2">
+          <li><i class="fas fa-envelope mr-2"></i> support@pharmacare.com</li>
+          <li><i class="fas fa-phone mr-2"></i> +91 98765 43210</li>
+          <li><i class="fas fa-map-marker-alt mr-2"></i> Mumbai, India</li>
+        </ul>
+      </div>
+
+    </div>
+
+  </footer>
+
+  <script>
+    // Theme toggle used across pages (guarded)
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const html = document.documentElement;
+      const lightIcon = document.getElementById('theme-icon-light');
+      const darkIcon = document.getElementById('theme-icon-dark');
+      if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+          html.classList.toggle('dark');
+          if (lightIcon) lightIcon.classList.toggle('hidden');
+          if (darkIcon) darkIcon.classList.toggle('hidden');
+        });
+      }
+      const yearEl = document.getElementById('year');
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
+    })();
+  </script>
+
+  <script src="{% static 'js/billing.js' %}"></script>
+</body>
+</html>

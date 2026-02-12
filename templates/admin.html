@@ -1,0 +1,124 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin Panel — PharmaCare</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <header
+      class="shadow-md border-b border-green-100 dark:border-gray-800 bg-gradient-to-r from-green-50 to-white dark:from-gray-800 dark:to-gray-900"
+    >
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-3"
+      >
+        <a href="/" class="flex items-center space-x-4">
+          <div
+            class="bg-green-100 rounded-full p-1.5 flex items-center justify-center shadow-md group-hover:scale-105 transition-transform duration-300 border-2 border-green-400"
+          >
+            <img
+              src="{% static 'logo.png' %}"
+              alt="PharmaCare Logo"
+              class="w-20 h-20 object-contain rounded-full"
+            />
+          </div>
+          <div class="flex flex-col">
+            <h1 class="text-xl font-bold">Admin</h1>
+            <p class="text-sm text-gray-600">User Management</p>
+            <div
+              class="text-gray-700 dark:text-gray-300 hover:text-green-600 hover:border-b-2 hover:border-green-500 pb-1 transition duration-150"
+            >
+              <button
+                onclick="logout()"
+                class="px-4 fixed top-4 right-4 bg-red-600 hover:bg-red-700 text-white font-medium py-3 rounded-xl shadow-md transform hover:-translate-y-0.5 transition-all duration-300"
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        </a>
+      </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-2">
+      <div class="grid grid-cols-1 gap-6 mb-2">
+        <!-- Users - full width -->
+        <div class="col-span-1">
+          <h2 class="text-2xl font-semibold mb-4">Users</h2>
+          <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
+            <table class="w-full text-sm" id="adminUsersTable">
+              <thead>
+                <tr class="text-left">
+                  <th class="p-2">Name</th>
+                  <th class="p-2">Email</th>
+                  <th class="p-2">Role</th>
+                  <th class="p-2">Subscription</th>
+                  <th class="p-2">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="adminUsersBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer
+      class="bg-gray-100 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 mt-12 transition-colors duration-300"
+    >
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid grid-cols-1 md:grid-cols-4 gap-8 text-sm"
+      >
+        <!-- Logo and About -->
+        <div>
+          <div class="flex items-center space-x-2 mb-3">
+            <div
+              class="w-9 h-9 bg-brand-color text-white font-bold rounded-md flex items-center justify-center shadow-md"
+            >
+              PC
+            </div>
+            <h2 class="text-gray-800 dark:text-gray-200 font-semibold text-lg">
+              PharmaCare
+            </h2>
+          </div>
+          <p class="text-gray-600 dark:text-gray-400">
+            PharmaCare is a complete medical representative management system
+            designed to simplify medicine tracking, sales monitoring, and stock
+            management efficiently.
+          </p>
+        </div>
+        <!-- Contact Info -->
+        <div>
+          <h3 class="text-gray-800 dark:text-gray-200 font-semibold mb-3">
+            Contact Us
+          </h3>
+          <ul class="text-gray-600 dark:text-gray-400 space-y-2">
+            <li><i class="fas fa-envelope mr-2"></i> support@pharmacare.com</li>
+            <li><i class="fas fa-phone mr-2"></i> +91 98765 43210</li>
+            <li><i class="fas fa-map-marker-alt mr-2"></i> Mumbai, India</li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    <script src="{% static 'js/admin.js' %}"></script>
+    <script>
+      function logout() {
+        fetch("/logout", { method: "POST", credentials: "include" })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Logout successful:", data);
+            localStorage.removeItem("meditrack_logged_in");
+            window.location.href = "login.html";
+          })
+          .catch((error) => {
+            console.error("Logout error:", error);
+            localStorage.removeItem("meditrack_logged_in");
+            window.location.href = "login.html";
+          });
+      }
+    </script>
+  </body>
+</html>

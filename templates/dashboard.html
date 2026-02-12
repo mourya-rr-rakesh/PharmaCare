@@ -1,0 +1,520 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MyDashboard — PharmaCare</title>
+  <script>
+    // Set the dark mode strategy to 'class'
+    tailwind.config = {
+      darkMode: 'class',
+    }
+
+
+    // js for custom tailwind colors for brand logo consistency
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              light: '#BBF7D0', // light green
+              DEFAULT: '#10B981', // main medical green
+              dark: '#047857', // dark green
+            },
+          },
+        },
+      },
+    };
+  </script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* --- Light Mode Brand Colors (Default) --- */
+    .brand-color {
+      color: #10b981;
+      /* Tailwind emerald-500 */
+    }
+
+    .bg-brand-color {
+      background-color: #10b981;
+    }
+
+    /* --- Dark Mode Brand Colors (Applied when <body> has class="dark") --- */
+    /* Change brand color text to a brighter shade for contrast in dark mode */
+    .dark .brand-color {
+      color: #34d399;
+      /* Tailwind emerald-400 (brighter for dark mode) */
+    }
+
+    /* Change brand color background to a slightly darker shade in dark mode */
+    .dark .bg-brand-color {
+      background-color: #059669;
+      /* Tailwind emerald-600 */
+    }
+  </style>
+
+  <style>
+    /* Responsive table: allow wrapping and provide mobile stacked view (same as soon-expiring) */
+    table th,
+    table td {
+      white-space: normal;
+      word-break: break-word;
+    }
+
+    @media (max-width: 1024px) {
+      .overflow-x-auto {
+        overflow-x: hidden;
+      }
+
+      table thead {
+        display: none;
+      }
+
+      table,
+      tbody,
+      tr,
+      td {
+        display: block;
+        width: 100%;
+      }
+
+      tr {
+        margin-bottom: 0.75rem;
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+        background: inherit;
+        border: 1px solid rgba(0, 0, 0, 0.04);
+      }
+
+      td {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        padding: 0.35rem 0;
+        border: 0;
+      }
+
+      td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: #374151;
+        margin-right: 0.5rem;
+        flex: 0 0 40%;
+      }
+
+      td>span {
+        flex: 1 1 auto;
+        text-align: right;
+        color: #111827;
+      }
+    }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+  <header
+    class="shadow-md border-b border-green-100 dark:border-gray-800 bg-gradient-to-r from-green-50 to-white dark:from-gray-800 dark:to-gray-900 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-3">
+
+      <!-- LOGO + BRAND -->
+      <a href="/" class="flex items-center space-x-4 group">
+        <!-- LOGO WRAPPER -->
+          <div
+          class="bg-green-100 rounded-full p-1.5 flex items-center justify-center shadow-md group-hover:scale-105 transition-transform duration-300 border-2 border-green-400">
+          <img src="{% static 'logo.png' %}"alt="PharmaCare Logo"
+            class="w-20 h-20 object-contain rounded-full" />
+        </div>
+        <!-- BRAND NAME -->
+        <div class="flex flex-col leading-snug">
+          <h1
+            class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-green-600 transition duration-200">
+            PharmaCare
+          </h1>
+          <p class="text-sm text-gray-600 dark:text-gray-400 italic">
+            Smart Medicine Expiry Alerts
+          </p>
+        </div>
+      </a>
+
+      <!-- NAVIGATION -->
+      <div class="flex items-center space-x-6">
+        <nav class="hidden md:flex space-x-6 text-base font-medium">
+          <a href="/"
+            class="text-gray-700 dark:text-gray-300 hover:text-green-600 hover:border-b-2 hover:border-green-500 pb-1 transition duration-150">Home</a>
+          <a href="/dashboard.html"
+            class="text-green-700 dark:text-green-400 font-semibold border-b-2 border-green-500 pb-1 transition duration-150">Dashboard</a>
+          <a href="/total-medicines.html"
+            class="text-green-700 dark:text-green-400 font-semibold border-b-2 border-green-500 pb-1 transition duration-150">Medicines</a>
+
+          <a href="/profile.html"
+            class="text-gray-700 dark:text-gray-300 hover:text-green-600 hover:border-b-2 hover:border-green-500 pb-1 transition duration-150">Profile</a>
+
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- PAGE CONTAINER -->
+  <div class="max-w-7xl mx-auto p-6 space-y-8">
+
+    <!-- PAGE CONTAINER -->
+    <div class="max-w-7xl mx-auto p-6 space-y-8">
+
+      <!-- TITLE -->
+      <h1 id="orgName" class="text-4xl font-extrabold text-center text-brand-dark mb-4">OM MEDICAL STORE</h1>
+
+
+      <!-- STATS SECTION -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div
+          class="bg-white dark:bg-gray-800 rounded-2xl shadow p-6 text-center hover:shadow-lg transition duration-300 border-t-4 border-green-500 cursor-pointer"
+          role="button" onclick="window.location.href='total-medicines.html'">
+          <div class="text-gray-500 text-sm">Total Medicines</div>
+          <h2 id="totalCount" class="text-4xl font-bold text-green-600 mt-2">0</h2>
+        </div>
+
+        <div
+          class="bg-white dark:bg-gray-800 rounded-2xl shadow p-6 text-center hover:shadow-lg transition duration-300 border-t-4 border-yellow-400 cursor-pointer"
+          onclick="window.location.href='soon-expiring.html'">
+          <div class="text-gray-500 text-sm">Will Expire Within 5 Months</div>
+          <h2 id="soonCount" class="text-4xl font-bold text-yellow-500 mt-2">0</h2>
+        </div>
+
+        <div
+          class="bg-white dark:bg-gray-800 rounded-2xl shadow p-6 text-center hover:shadow-lg transition duration-300 border-t-4 border-blue-500">
+          <div class="text-gray-500 text-sm">Total Profit</div>
+          <h2 id="totalProfit" class="text-2xl font-semibold text-blue-600 mt-2">0.00</h2>
+        </div>
+
+        <div
+          class="bg-white dark:bg-gray-800 rounded-2xl shadow p-6 text-center hover:shadow-lg transition duration-300 border-t-4 border-purple-500">
+          <div class="text-gray-500 text-sm">Last Updated</div>
+          <h2 id="lastUpdated" class="text-xl font-semibold text-purple-600 mt-2">—</h2>
+        </div>
+      </div>
+
+      <!-- FORM SECTION -->
+      <div class="bg-white dark:bg-gray-800 shadow rounded-2xl p-6 space-y-4">
+        <form id="medForm" class="space-y-4" action="#" method="post">
+          {% csrf_token %}
+          <!-- FORM GRID -->
+          <!-- Container -->
+          <div
+            class="bg-gradient-to-br from-green-50 to-white dark:from-gray-800 dark:to-gray-900 p-8 rounded-2xl shadow-lg border border-green-100 dark:border-gray-700 transition duration-300">
+            <h2 class="text-2xl font-bold text-center text-green-700 dark:text-green-400 mb-6">
+              💊 Medicine Information
+            </h2>
+
+            <div class="grid md:grid-cols-3 gap-6">
+              <!-- Medicine Name -->
+              <div class="group">
+                <label for="name" class="font-medium text-gray-700 dark:text-gray-300">Medicine Name</label>
+                <input id="name" list="medicineNames" required placeholder="e.g. Paracetamol" class="mt-1 w-full border border-gray-300 dark:border-gray-600 rounded-lg p-2
+               focus:ring-2 focus:ring-green-400 focus:outline-none dark:bg-gray-700
+               transition duration-200 group-hover:shadow-md group-hover:border-green-400" />
+              </div>
+
+              <!-- Composition -->
+              <div class="group relative">
+                <label for="composition" class="font-medium text-gray-700 dark:text-gray-300">Composition</label>
+                <input id="composition" placeholder="e.g. Paracetamol 500mg, Ibuprofen 200mg" class="mt-1 w-full border border-gray-300 dark:border-gray-600 rounded-lg p-2
+               focus:ring-2 focus:ring-green-400 focus:outline-none dark:bg-gray-700
+               transition duration-200 group-hover:shadow-md group-hover:border-green-400" />
+                <div id="compositionSuggestions"
+                  class="absolute z-10 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg max-h-40 overflow-y-auto hidden">
+                </div>
+              </div>
+
+              <!-- Manufacture Date -->
+              <div class="group">
+                <label for="mfgDate" class="font-medium text-gray-700 dark:text-gray-300">Manufacture Date</label>
+                <input id="mfgDate" type="month" min="2014-01" max="2034-12" class="mt-1 w-full border border-gray-300 dark:border-gray-600 rounded-lg p-2
+               focus:ring-2 focus:ring-green-400 focus:outline-none dark:bg-gray-700
+               transition duration-200 group-hover:shadow-md group-hover:border-green-400" />
+              </div>
+
+              <!-- Expiry Date + Prices Row -->
+              <div class="md:col-span-3 grid md:grid-cols-4 gap-6 items-end mt-2">
+                <!-- Expiry Date -->
+                <div class="group">
+                  <label for="expDate" class="font-medium text-gray-700 dark:text-gray-300">Expiry Date</label>
+                  <input id="expDate" type="month" required min="2014-01" max="2034-12" class="mt-1 w-full border border-gray-300 dark:border-gray-600 rounded-lg p-2
+                 focus:ring-2 focus:ring-green-400 focus:outline-none dark:bg-gray-700
+                 transition duration-200 group-hover:shadow-md group-hover:border-green-400" />
+                </div>
+
+                <!-- Prices Group -->
+                <div class="col-span-3">
+                  <label class="font-medium text-gray-700 dark:text-gray-300">Prices</label>
+                  <div class="grid grid-cols-3 gap-4 mt-1">
+                    <div class="group">
+                      <label for="mrp" class="text-sm text-gray-500">MRP</label>
+                      <input id="mrp" type="number" step="0.01" min="0" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg p-2
+                     focus:ring-2 focus:ring-green-400 focus:outline-none dark:bg-gray-700
+                     transition duration-200 group-hover:shadow-md group-hover:border-green-400" />
+                    </div>
+
+                    <div class="group">
+                      <label for="buyPrice" class="text-sm text-gray-500">Buy</label>
+                      <input id="buyPrice" type="number" step="0.01" min="0" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg p-2
+                     focus:ring-2 focus:ring-green-400 focus:outline-none dark:bg-gray-700
+                     transition duration-200 group-hover:shadow-md group-hover:border-green-400" />
+                    </div>
+
+                    <div class="group">
+                      <label for="sellPrice" class="text-sm text-gray-500">Sell</label>
+                      <input id="sellPrice" type="number" step="0.01" min="0" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg p-2
+                     focus:ring-2 focus:ring-green-400 focus:outline-none dark:bg-gray-700
+                     transition duration-200 group-hover:shadow-md group-hover:border-green-400" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Type and Stock Row -->
+              <div class="md:col-span-3 grid md:grid-cols-2 gap-6 items-end mt-2">
+                <!-- Type -->
+                <div class="group">
+                  <label for="type" class="font-medium text-gray-700 dark:text-gray-300">Type</label>
+                  <input id="type" list="typeNames" placeholder="e.g. Tablet, Syrup" class="mt-1 w-full border border-gray-300 dark:border-gray-600 rounded-lg p-2
+                 focus:ring-2 focus:ring-green-400 focus:outline-none dark:bg-gray-700
+                 transition duration-200 group-hover:shadow-md group-hover:border-green-400" />
+                </div>
+
+                <!-- Stock -->
+                <div class="group">
+                  <label for="stock" class="font-medium text-gray-700 dark:text-gray-300">Stock</label>
+                  <input id="stock" type="number" min="0" class="mt-1 w-full border border-gray-300 dark:border-gray-600 rounded-lg p-2
+                 focus:ring-2 focus:ring-green-400 focus:outline-none dark:bg-gray-700
+                 transition duration-200 group-hover:shadow-md group-hover:border-green-400" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Save & Reset Buttons -->
+            <div class="mt-6 flex gap-4 justify-end">
+              <button type="button" id="saveBtn" class="px-5 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700
+             transition duration-200 shadow-md hover:shadow-lg">
+                💾 Save Medicine
+              </button>
+
+              <button type="button" id="resetBtn" class="px-5 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-300 font-semibold rounded-lg
+             hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-200 shadow-md hover:shadow-lg">
+                ♻️ Reset
+              </button>
+            </div>
+          </div>
+      </div>
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="flex flex-wrap gap-3 items-center mt-6">
+      <button
+        class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-200 px-5 py-2 rounded-lg transition"
+        type="button" id="resetSearchBtn">Reset</button>
+
+      <input id="search"
+        class="flex-1 border border-gray-300 dark:border-gray-600 rounded-lg p-2 focus:ring-2 focus:ring-green-400 focus:outline-none dark:bg-gray-700"
+        placeholder="🔍 Search by name or composition" />
+
+      <div class="flex gap-3 ml-auto">
+
+        <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg transition" id="importFileBtn"
+          type="button" title="Import medicines from Excel or CSV file">📤 Import From File</button>
+        <input id="importFileInput" type="file" accept=".xlsx,.xls,.csv" class="hidden" />
+
+        <button class="bg-green-500 hover:bg-green-600 text-white px-5 py-2 rounded-lg transition" id="exportBtn"
+          type="button" title="Export all medicines to Excel">📊 Export to Excel</button>
+
+        <button class="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-lg transition" id="clearBtn"
+          type="button" title="Clear all medicines">🗑️ Clear All</button>
+
+        
+      </div>
+    </div>
+
+    <p class="text-sm text-gray-500 dark:text-gray-400 mt-4 italic">
+      Rows are automatically sorted by expiry date (soonest first).
+      <span class="text-red-500 font-semibold">Red</span> = expired,
+      <span class="text-yellow-400 font-semibold">Yellow</span> = expiring within 5 months.
+    </p>
+    </form>
+  </div>
+
+  <!-- MEDICINE LIST TABLE -->
+  <div class="bg-white dark:bg-gray-800 shadow rounded-2xl p-6">
+    <h2 class="text-2xl font-bold text-center text-green-700 dark:text-green-400 mb-2">📋 Registered Medicines</h2>
+    <p id="registeredNote" class="text-center text-sm text-gray-500 dark:text-gray-400 mb-4">Latest. <a
+        href="/total-medicines.html" class="text-green-600 hover:underline">View all</a></p>
+
+    <div class="overflow-x-auto">
+      <table class="w-full table-auto border-collapse">
+        <thead>
+          <tr class="bg-green-100 dark:bg-gray-700 text-left">
+            <th class="px-4 py-2 font-semibold">Name</th>
+            <th class="px-4 py-2 font-semibold">Type</th>
+            <th class="px-4 py-2 font-semibold">Composition</th>
+            <th class="px-4 py-2 font-semibold">Mfg Date</th>
+            <th class="px-4 py-2 font-semibold">Exp Date</th>
+            <th class="px-4 py-2 font-semibold">MRP</th>
+            <th class="px-4 py-2 font-semibold">Buy Price</th>
+            <th class="px-4 py-2 font-semibold">Sell Price</th>
+            <th class="px-4 py-2 font-semibold">Stock</th>
+            <th class="px-4 py-2 font-semibold">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="medList" class="text-gray-800 dark:text-gray-200"></tbody>
+      </table>
+    </div>
+
+    <p id="noData" class="text-center text-gray-500 dark:text-gray-400 mt-4 hidden"></p>
+  </div>
+  </div>
+  <footer
+    class="bg-gray-100 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 mt-12 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 grid grid-cols-1 md:grid-cols-4 gap-8 text-sm">
+
+      <!-- Logo and About -->
+      <div>
+        <div class="flex items-center space-x-2 mb-3">
+          <div
+            class="w-9 h-9 bg-brand-color text-white font-bold rounded-md flex items-center justify-center shadow-md">
+            PC
+          </div>
+          <h2 class="text-gray-800 dark:text-gray-200 font-semibold text-lg">PharmaCare</h2>
+        </div>
+        <p class="text-gray-600 dark:text-gray-400">
+          PharmaCare is a complete medical representative management system designed to simplify medicine
+          tracking, sales monitoring, and stock management efficiently.
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h3 class="text-gray-800 dark:text-gray-200 font-semibold mb-3">Quick Links</h3>
+        <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+          <li><a href="/" class="hover:text-brand-color transition duration-150">Home</a></li>
+          <li><a href="/dashboard.html" class="hover:text-brand-color transition duration-150">Dashboard</a>
+          </li>
+          <li><a href="/registration.html" class="hover:text-brand-color transition duration-150">Registration</a></li>
+          <li><a href="/login.html" class="hover:text-brand-color transition duration-150">Login</a></li>
+          <li><a href="/profile.html" class="hover:text-brand-color transition duration-150">Profile</a></li>
+        </ul>
+      </div>
+
+      <!-- Support -->
+      <div>
+        <h3 class="text-gray-800 dark:text-gray-200 font-semibold mb-3">Support</h3>
+        <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+          <li><a href="#" class="hover:text-brand-color transition duration-150">Help Center</a></li>
+          <li><a href="#" class="hover:text-brand-color transition duration-150">FAQs</a></li>
+          <li><a href="#" class="hover:text-brand-color transition duration-150">Privacy Policy</a></li>
+          <li><a href="#" class="hover:text-brand-color transition duration-150">Terms of Use</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact Info -->
+      <div>
+        <h3 class="text-gray-800 dark:text-gray-200 font-semibold mb-3">Contact Us</h3>
+        <ul class="text-gray-600 dark:text-gray-400 space-y-2">
+          <li><i class="fas fa-envelope mr-2"></i> support@pharmacare.com</li>
+          <li><i class="fas fa-phone mr-2"></i> +91 98765 43210</li>
+          <li><i class="fas fa-map-marker-alt mr-2"></i> Mumbai, India</li>
+        </ul>
+      </div>
+
+    </div>
+
+  </footer>
+
+
+
+  <script>
+    // Check authentication on page load and set org name in header
+    async function checkAuth() {
+      // Verify session with server first
+      try {
+        const response = await fetch('/profile_api', {
+          credentials: 'include'
+        });
+        if (!response.ok) {
+          // Session invalid, redirect to login
+          localStorage.removeItem('meditrack_logged_in');
+          window.location.href = 'login.html';
+          return;
+        }
+
+        // Session valid, set localStorage if not set
+        if (!localStorage.getItem('meditrack_logged_in')) {
+          localStorage.setItem('meditrack_logged_in', 'true');
+        }
+
+        // Use returned profile to display the organization name on the dashboard
+        try {
+          const data = await response.json();
+          const user = data.user || {};
+          const orgNameEl = document.getElementById('orgName');
+          if (orgNameEl) {
+            orgNameEl.textContent = user.org || user.name || 'OM MEDICAL STORE';
+          }
+        } catch (e) {
+          console.warn('Failed to parse profile response:', e);
+        }
+      } catch (error) {
+        console.error('Auth check failed:', error);
+        localStorage.removeItem('meditrack_logged_in');
+        window.location.href = 'login.html';
+        return;
+      }
+    }
+
+    // Run auth check when page loads
+    window.addEventListener('DOMContentLoaded', checkAuth);
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Dark mode toggle for header section
+    const themeToggle = document.getElementById("theme-toggle");
+    const html = document.documentElement;
+    const lightIcon = document.getElementById("theme-icon-light");
+    const darkIcon = document.getElementById("theme-icon-dark");
+
+    // Billing button handler
+    const billingBtn = document.getElementById('billing-btn');
+    if (billingBtn) {
+      billingBtn.addEventListener('click', () => {
+        // Open billing page in same tab
+        window.location.href = 'billing.html';
+      });
+    }
+
+    themeToggle.addEventListener("click", () => {
+      html.classList.toggle("dark");
+      lightIcon.classList.toggle("hidden");
+      darkIcon.classList.toggle("hidden");
+    });
+  </script>
+
+  <script src="{% static 'js/medicine-name.js' %}"></script>
+  <script src="{% static 'js/medicine-composition-name.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+  <script src="{% static 'js/script.js' %}"></script>
+
+  <!-- Datalists for autocomplete -->
+  <datalist id="medicineNames"></datalist>
+  <datalist id="compositionNames"></datalist>
+  <datalist id="typeNames">
+    <option value="Tablet">
+    <option value="Injection">
+    <option value="Syrup">
+    <option value="Ointment">
+  </datalist>
+</body>
+
+</html>
